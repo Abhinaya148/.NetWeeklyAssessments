@@ -1,0 +1,306 @@
+//Problem-1 abstract class shape for calculating area and perimeter
+
+//program.cs
+
+using System;
+using System.Collections.Generic;
+
+// Abstract base class Shape
+abstract class Shape
+{
+    public abstract double CalculateArea();
+    public abstract double CalculatePerimeter();
+}
+
+// Circle subclass
+class Circle : Shape
+{
+    public double Radius { get; }
+
+    public Circle(double radius)
+    {
+        Radius = radius;
+    }
+
+    public override double CalculateArea()
+    {
+        return Math.PI * Radius * Radius;
+    }
+
+    public override double CalculatePerimeter()
+    {
+        return 2 * Math.PI * Radius;
+    }
+}
+
+// Rectangle subclass
+class Rectangle : Shape
+{
+    public double Width { get; }
+    public double Height { get; }
+
+    public Rectangle(double width, double height)
+    {
+        Width = width;
+        Height = height;
+    }
+
+    public override double CalculateArea()
+    {
+        return Width * Height;
+    }
+
+    public override double CalculatePerimeter()
+    {
+        return 2 * (Width + Height);
+    }
+}
+
+// Triangle subclass
+class Triangle : Shape
+{
+    public double Side1 { get; }
+    public double Side2 { get; }
+    public double Side3 { get; }
+
+    public Triangle(double side1, double side2, double side3)
+    {
+        Side1 = side1;
+        Side2 = side2;
+        Side3 = side3;
+    }
+
+    public override double CalculateArea()
+    {
+        double s = (Side1 + Side2 + Side3) / 2;
+        return Math.Sqrt(s * (s - Side1) * (s - Side2) * (s - Side3));
+    }
+
+    public override double CalculatePerimeter()
+    {
+        return Side1 + Side2 + Side3;
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        List<Shape> shapes = new List<Shape>
+        {
+            new Circle(7.6),
+            new Rectangle(2.62, 3.21),
+            new Triangle(9.0, 8.41, 1.10)
+        };
+
+        double totalArea = 0.0;
+        double totalPerimeter = 0.0;
+
+        foreach (var shape in shapes)
+        {
+            totalArea += shape.CalculateArea();
+            totalPerimeter += shape.CalculatePerimeter();
+        }
+
+        Console.WriteLine("Total Area: " + totalArea);
+        Console.WriteLine("Total Perimeter: " + totalPerimeter);
+    }
+}
+
+
+
+//Problem-2 "Person" class with properties like
+Name, Age, and Address. Implement multiple interfaces
+
+
+//program.cs
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Person
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            var person = new RoleModel
+            {
+                Name = "Ram",
+                Age = 21,
+                Address = "L.b Nagar"
+            };
+            IDriver driver = person;
+            IStudent student = person;
+            IEmployee employee = person;
+
+            driver.Drive();
+            student.Years();
+            employee.Work();
+        }
+
+    }
+}
+
+//person.cs
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Person
+{
+    public class Person
+    {
+        public string Name { get; set; }
+        public int Age { get; set; }
+        public string Address { get; set; }
+    }
+    public interface IDriver
+    {
+        void Drive();
+    }
+
+    public interface IStudent
+    {
+        void Years();
+    }
+
+    public interface IEmployee
+    {
+        void Work();
+    }
+}
+
+//call.cs
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Person
+{
+    public class RoleModel : Person, IDriver, IStudent, IEmployee
+    {
+        public void Drive()
+        {
+            Console.WriteLine($"{Name} is driving.");
+        }
+
+        public void Years()
+        {
+            Console.WriteLine($"{Name} is {Age} years old.");
+        }
+
+        public void Work()
+        {
+            Console.WriteLine($"{Name} is working at {Address} location.");
+        }
+    }
+}
+
+
+
+//Problem-3 Build a generic collection to manage a library's inventory of books.
+
+//program.cs
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Generic_coding
+{
+    internal class Program
+    {
+            static void Main()
+            {
+                Book book = new Book();
+
+                while (true)
+                {
+                    Console.WriteLine("Library Management System");
+                    Console.WriteLine("1. Add the Book");
+                    Console.WriteLine("2. Remove the Book");
+                    Console.WriteLine("3. Display All the Books");
+                    Console.WriteLine("4. Search Book by Title");
+                    Console.WriteLine("5. Exit");
+                    Console.Write("Enter your choice: ");
+
+                    if (int.TryParse(Console.ReadLine(), out int choice))
+                    {
+                        switch (choice)
+                        {
+                            case 1:
+                                Console.Write("Enter the Book Title: ");
+                                string title = Console.ReadLine();
+                                Console.Write("Enter the Author of the Book: ");
+                                string author = Console.ReadLine();
+                                Console.Write("Enter the Book ISBN: ");
+                                string isbn = Console.ReadLine();
+
+                                Book newBook = new Book { Title = title, Author = author, ISBN = isbn };
+                               
+                                break;
+
+                            case 2:
+                                Console.Write("Enter ISBN of the Book to Remove: ");
+                                break;
+
+                            case 3:
+                                Console.Write("Enter the Title to Search: ");
+                                break;
+                            case 4:
+                            Console.WriteLine("Display all books present");
+                                break;
+
+                            case 5:
+                                Environment.Exit(0);
+                                break;
+
+                            default:
+                                Console.WriteLine("Invalid choice. Please try again correctly.");
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid input. Please enter a valid choice.");
+                    }
+                }
+            }
+        }
+    }
+
+
+//Books.cs
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Generic_coding
+{
+        public class Book
+        {
+            public string Title { get; set; }
+            public string Author { get; set; }
+            public string ISBN { get; set; }
+
+            public override string ToString()
+            {
+                Console.WriteLine( $"Title: {Title}, Author: {Author}, ISBN: {ISBN}");
+            }
+        }
+    }
